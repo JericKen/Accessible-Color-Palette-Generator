@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessible Color Palette Genertor</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=autorenew" />
+</head>
+<body>
+    <main>
+        <section class="flex">
+            <div class="panel">
+                <div style="display: flex; flex-direction: column; height: 100%;">
+                    <h2>Color palette</h2>
+                    <div class="palette">
+                        <div class="color-box">
+                            <span class="card-title">PRIMARY</span>
+                            <div class="color-card" id="primaryColor"></div>  
+                            <span class="hex" id="primaryText">Hex: #000000</span>
+                        </div>
+                        <div class="color-box">
+                            <span class="card-title">SECONDARY</span>
+                            <div class="color-card" id="secondaryColor"></div>
+                            <span class="hex" id="secondaryText">Hex: #000000</span>
+                        </div>
+                    </div>
+                    <div class="controls">
+                        <label for="lockPrimary" class="checkbox">
+                            <input type="checkbox" id="lockPrimary"/>
+                            Lock primary
+                        </label>
+                        <button id="generatBtn"><span class="material-symbols-outlined">autorenew</span>Generate another</button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel">
+                <div>
+                    <h2>Visualization</h2>
+                    <div class="viz">
+                        <div class="viz-card" id="viz1">
+                            <h2>Heading</h2>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium repellendus impedit officiis nemo nam eius officia quisquam quae assumenda aut?</p>
+                        </div>
+                        <div class="viz-card" id="viz2">
+                            <h2>Heading</h2>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium repellendus impedit officiis nemo nam eius officia quisquam quae assumenda aut?</p>
+                        </div>
+                        <div class="viz-row">
+                            <div class="viz-card" id="viz3">
+                                <h2>Heading</h2>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium repellendus impedit officiis nemo nam eius officia quisquam quae assumenda aut?</p>
+                            </div>
+                            <div class="viz-card" id="viz4  ">
+                                <h2>Heading</h2>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium repellendus impedit officiis nemo nam eius officia quisquam quae assumenda aut?</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wcag">
+                        <div class="wcag-result">
+                            <h4>Normal Text:</h4>
+                            <p>WCAG AA: <span id="noramlAA"></span></p>
+                            <p>WCAG AAA: <span id="normalAAA"></span></p>
+                        </div>
+                        <div class="wcag-result">
+                            <h4>Large Text:</h4>
+                            <p>WCAG AA: <span id="largeAA"></span></p>
+                            <p>WCAG AAA: <span id="largeAAA"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
