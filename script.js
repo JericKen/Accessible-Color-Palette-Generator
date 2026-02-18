@@ -217,8 +217,6 @@ const normalAAAEl = document.getElementById("normalAAA");
 const largeAAEl = document.getElementById("largeAA");
 const largeAAAEl = document.getElementById("largeAAA");
 
-
-
 let currentPrimary = generatePrimaryUntilReadable();
 let currentSecondary = generateSecondaryUntilReadable(currentPrimary);
 
