@@ -13,68 +13,86 @@
 <body>
     <main>
         <section class="flex">
-            <div class="panel">
-                <div style="display: flex; flex-direction: column; height: 100%;">
-                    <h2>Color palette</h2>
+            <div class="panel color-palette">
+                <div>
+                    <h2 class="label">Color palette</h2>
                     <div class="palette">
                         <div class="color-box">
-                            <span class="card-title">PRIMARY</span>
+                            <span class="card-title label">PRIMARY</span>
                             <div class="color-card" id="primaryColor"></div>  
-                            <span class="hex" id="primaryText">Hex: #000000</span>
+                            <span class="hex" id="primaryHex">Hex: #000000</span>
                         </div>
                         <div class="color-box">
-                            <span class="card-title">SECONDARY</span>
+                            <span class="card-title label">SECONDARY</span>
                             <div class="color-card" id="secondaryColor"></div>
-                            <span class="hex" id="secondaryText">Hex: #000000</span>
+                            <span class="hex" id="secondaryHex">Hex: #000000</span>
                         </div>
-                    </div>
+                    </div>  
                     <div class="controls">
                         <label for="lockPrimary" class="checkbox">
                             <input type="checkbox" id="lockPrimary"/>
                             Lock primary
                         </label>
-                        <button id="generatBtn"><span class="material-symbols-outlined">autorenew</span>Generate another</button>
+                        <button id="generateBtn"><span class="material-symbols-outlined">autorenew</span>Generate another</button>
                     </div>
                 </div>
             </div>
-            <div class="panel">
+            <div class="panel visualization">
                 <div>
-                    <h2>Visualization</h2>
+                    <h2 class="label">Visualization</h2>
                     <div class="viz">
                         <div class="viz-card" id="viz1">
-                            <h2>Heading</h2>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium repellendus impedit officiis nemo nam eius officia quisquam quae assumenda aut?</p>
+                            <h2 id="h1">Heading</h2>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                         </div>
                         <div class="viz-card" id="viz2">
-                            <h2>Heading</h2>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium repellendus impedit officiis nemo nam eius officia quisquam quae assumenda aut?</p>
+                            <h2 id="h2">Heading</h2>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                         </div>
                         <div class="viz-row">
                             <div class="viz-card" id="viz3">
-                                <h2>Heading</h2>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium repellendus impedit officiis nemo nam eius officia quisquam quae assumenda aut?</p>
+                                <h2 id="h3">Heading</h2>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                             </div>
-                            <div class="viz-card" id="viz4  ">
-                                <h2>Heading</h2>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium repellendus impedit officiis nemo nam eius officia quisquam quae assumenda aut?</p>
+                            <div class="viz-card" id="viz4">
+                                <h2 id="h4">Heading</h2>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                             </div>
                         </div>
                     </div>
                     <div class="wcag">
                         <div class="wcag-result">
                             <h4>Normal Text:</h4>
-                            <p>WCAG AA: <span id="noramlAA"></span></p>
-                            <p>WCAG AAA: <span id="normalAAA"></span></p>
+                            <div class="result-container">
+                                <div class="wcag-label">
+                                    <p>WCAG AA:</p>
+                                    <p>WCAG AAA:</p>
+                                </div>
+                                <div>
+                                    <p id="normalAA"></p>
+                                    <p id="normalAAA"></p>
+                                </div>
+                            </div>
                         </div>
                         <div class="wcag-result">
                             <h4>Large Text:</h4>
-                            <p>WCAG AA: <span id="largeAA"></span></p>
-                            <p>WCAG AAA: <span id="largeAAA"></span></p>
+                            <div class="result-container">
+                                <div class="wcag-label">
+                                    <p>WCAG AA:</p>
+                                    <p>WCAG AAA:</p>
+                                </div>
+                                <div>
+                                    <p id="largeAA"></p>
+                                    <p id="largeAAA"></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
+
+    <script src="script.js"></script>
 </body>
 </html>
