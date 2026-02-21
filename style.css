@@ -1,99 +1,211 @@
+/* =====================
+   CSS VARIABLES
+===================== */
+:root {
+  --font-main: "Outfit", sans-serif;
+
+  --clr-dark: #2f2820;
+  --clr-muted: #a39e9a;
+  --clr-border: rgb(95, 66, 66);
+
+  --clr-bg-light: #f1eee9;
+  --clr-bg-gray: #e1e1e1;
+  --clr-primary: #ca5c5b;
+
+  --radius-sm: 4px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  --gap-sm: 8px;
+  --gap-md: 16px;
+  --gap-lg: 26px;
+}
+
+/* =====================
+   RESET & BASE
+===================== */
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: "Outfit", sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    font-size: 1rem;
+  font-family: var(--font-main);
+  font-size: 1rem;
 }
 
 main {
-    height: 100vh;
+  min-height: 100vh;
+  height: auto;
 }
 
+/* =====================
+   FLEX HELPERS
+===================== */
 .flex {
-    display: flex;  
-    flex-wrap: wrap;
-    height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
 }
 
+.center-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* =====================
+   PANELS
+===================== */
 .panel {
-    flex: 1;    
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 40px 80px;
-    min-width: 468px;
+  flex: 1;
+  min-width: 468px;
+  min-height: 0;
+  padding: 40px 80px;
 }
 
 .label {
-    color: #2f2820;
+  color: var(--clr-dark);
 }
 
+/* =====================
+   COLOR PALETTE
+===================== */
 .color-palette {
-    position: relative;
-    background-color: #e1e1e1;  
+  position: relative;
+  background-color: var(--clr-bg-gray);
 }
 
 .color-palette::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    opacity: 0.2;
-    background-image: url(images/CA_Illustration-1.png);
-    background-size: 120%;
-    background-position: 160% 100%; 
-    background-repeat: no-repeat;
-    z-index: 0;
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.2;
+  background: url(images/CA_Illustration-1.png) no-repeat;
+  background-size: 120%;
+  background-position: 160% 100%;
 }
 
 .color-palette > * {
-    position: relative;
-    z-index: 1;
+  position: relative;
+  z-index: 1;
 }
 
-.visualization {
-    background-color: #f1eee9;
-    
-}
-
+/* =====================
+   PALETTE & CARDS
+===================== */
 .palette {
-    display: flex;  
-    gap: 16px;
-    flex-wrap: wrap;
-    justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--gap-md);
+  margin-top: var(--gap-md);
 }
-
-.viz, .palette {
-    margin-top: 16px;
-}   
 
 .color-box {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
-.color-box .card-title {
-    align-self: center;
-    font-weight: 700;
+.card-title {
+  align-self: center;
+  font-weight: 700;
 }
 
-.color-box .color-card {
-    border: 1px solid rgb(95, 66, 66);
-    height: 380px;
-    width: 200px;
-    border-radius: 16px;
-    margin-top: 6px;
+.color-card {
+  width: 200px;
+  height: 380px;
+  margin-top: 6px;
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
 }
 
+.color-picker-container {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+}
+
+.color-picker {
+  -webkit-appearance: none;
+  appearance: none;
+  border: var(--clr-border);
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  height: 20px;
+  width: 20px;
+  border-radius: 100%;  
+}
+
+.color-picker::-webkit-color-swatch-wrapper {
+  padding: 0;
+} 
+
+.color-picker::-webkit-color-swatch {
+  border: var(--clr-border);
+}
+
+input[type="color"]:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+/* =====================
+   VISUALIZATION
+===================== */
+.visualization {
+  background-color: var(--clr-bg-light);
+}
+
+.viz {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-lg);
+  margin-top: var(--gap-md);
+}
+
+.viz-card {
+  padding: 24px;
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+}
+
+.viz-row {
+  display: flex;
+  gap: var(--gap-lg);
+}
+
+/* =====================
+   WCAG RESULT
+===================== */
+
+.wcag {
+  margin-top: var(--gap-lg);
+  display: flex;
+  gap: var(--gap-lg);
+}
+
+.result-container div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.result-container div p:first-child {
+  color: var(--clr-muted);  
+}
+
+/* =====================
+   CONTROLS
+===================== */
 .controls {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 120px;
-    gap: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  margin-top: 120px;
 }
 
 .checkbox {
@@ -133,71 +245,174 @@ main {
   transform: rotate(45deg);
 }
 
+/* =====================
+   BUTTON
+===================== */
 button {
-    cursor: pointer;
-    padding: 12px;
-    border-radius: 12px;
-    border: none;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: #ca5c5b;
-    color: #ffffff;
-    font-weight: 300;
-    user-select: none;
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+  padding: 12px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 20px;
+  font-weight: 300;
+  background-color: var(--clr-primary);
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
 }
 
 button:active {
   transform: scale(0.98);
 }
 
-.viz {
-    display: flex;
+/* =====================
+   RESPONSIVE — TABLET
+===================== */
+@media (max-width: 1024px) {
+  .panel {
+    min-width: 320px;
+    padding: 32px 40px;
+  }
+
+  .flex {
     flex-direction: column;
-    gap: 26px;
+  }
+
+  .color-card {
+    width: 160px;
+    height: 300px;
+  }
+
+  .controls {
+    margin-top: 32px;
+  }
+
+  .viz-row {
+    flex-wrap: wrap;
+  }
+
+  .wcag {
+    flex-wrap: wrap;
+  }
 }
 
-.viz-card {
-    border: 1px solid rgb(95, 66, 66);
-    padding: 24px;
-    border-radius: 16px;
+/* =====================
+   RESPONSIVE — PHONE
+===================== */
+@media (max-width: 600px) {
+  .panel {
+    min-width: 0;
+    width: 100%;
+    padding: 24px 20px;
+  }
+
+  .flex {
+    flex-direction: column;
+  }
+
+  .palette {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--gap-lg);
+  }
+
+  .color-box {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .color-card {
+    width: 100%;
+    max-width: 280px;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .color-picker-container {
+    justify-content: center;
+  }
+
+  .controls {
+    margin-top: 24px;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  button {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 16px;
+    font-size: 1rem;
+    min-height: 48px;
+  }
+
+  .checkbox {
+    padding: 4px 0;
+  }
+
+  .viz-card {
+    padding: 20px 16px;
+  }
+
+  .viz-row {
+    flex-direction: column;
+    gap: var(--gap-md);
+  }
+
+  .wcag {
+    flex-direction: column;
+    margin-top: var(--gap-md);
+    gap: var(--gap-md);
+  }
+
+  .wcag-result h4 {
+    font-size: 0.9375rem;
+  }
+
+  .result-container div {
+    flex-wrap: wrap;
+  }
+
+  .color-palette::before {
+    background-size: 100%;
+    background-position: 80% 100%;
+    opacity: 0.15;
+  }
+
+  h2.label {
+    font-size: 1.125rem;
+    text-align: center;
+  }
+
+  .card-title {
+    font-size: 0.875rem;
+  }
 }
 
-.viz-row {
-    display: flex;
-    gap: 26px;
+@media (max-width: 380px) {
+  .panel {
+    padding: 20px 16px;
+  }
+
+  .color-card {
+    height: 180px;
+  }
 }
 
-.wcag {
-    display: flex;
-    gap: 30px;
-    margin-top: 26px;
-}
-
-.wcag-label {
-    color: #a39e9a;
-}
-
-.result-container {
-    display: flex;
-    gap: 30px;
-}
-
-@media (max-width: 768px) {
-    .viz-row {
-        flex-wrap: wrap;
-    }
-}
-
+/* =====================
+   RESPONSIVE — DESKTOP SCALING
+===================== */
 @media (min-width: 768px) {
-    body {
-        font-size: 1.0625rem; /* 17px */
-    }
+  body {
+    font-size: 1.0625rem; /* 17px */
+  }
 }
 
 @media (min-width: 1440px) {
-    body {
-        font-size: 1.125rem; /* 18px */
-    }
+  body {
+    font-size: 1.125rem; /* 18px */
+  }
 }
