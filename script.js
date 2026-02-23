@@ -126,21 +126,21 @@ function rgbToHex({ r, g, b }) {
 }
 
 function generateSupportingColor(primaryHex) {
-    const hsl = rgbToHsl(hexToRgb(primaryHex));
+    const base = rgbToHsl(hexToRgb(primaryHex));
 
-    const hueShift = 160 + Math.floor(Math.random() * 40);
-    let newHue = (hsl.h + 160) % 360;
+    const offsets = [150, 180, 210];
+    const h = (base.h + offsets[Math.floor(Math.random() * offsets.length)]) % 360;
 
-    let newSat = Math.min(0.85, Math.max(0.35, hsl.s));
+    const s = Math.min(0.65, Math.max(0.35, base.s * 0.7));
 
-    let newLight = hsl.l;
-    
-    newLight += (Math.random() * 0.3 - 0.15);
-    newLight = Math.min(0.85, Math.max(0.15, newLight));
+    let l;
+    if (base.l >= 0.5) {
+        l = Math.random() * 0.25 + 0.15;
+    } else {
+        l = Math.random() * 0.25 + 0.65;
+    }
 
-    const rgb = hslToRgb({ h: newHue, s: newSat, l: newLight });
-
-    return rgbToHex(rgb);
+    return rgbToHex(hslToRgb({ h, s, l }));
 }
 
 function generatePrimaryUntilReadable() {
@@ -156,67 +156,106 @@ function generatePrimaryUntilReadable() {
     }
 }
 
-function generateSecondaryUntilReadable(primaryHex) {
+function generateSecondaryUntilReadable(primaryHex, minContrast = 4.5, maxAttempts = 20) {
     let secondary = "";
-
-    while (true) {
+    for (let i = 0; i < maxAttempts; i++) {
         secondary = generateSupportingColor(primaryHex);
 
-        const best = bestTextColor(secondary);
-        const { normalAA, normalAAA, largeAA, largeAAA } = wcagPasses(best.ratio);
+        const textOK = wcagPasses(bestTextColor(secondary).ratio);
+        const colorContrast = contrastRatio(primaryHex, secondary);
 
-        if (normalAA && normalAAA && largeAA && largeAAA) return secondary;
+        if (
+            textOK.normalAA &&
+            textOK.normalAAA &&
+            colorContrast >= minContrast
+        ) {
+            return secondary;
+        }
     }
-}   
 
-
-function renderWcagResult(normalAAEl, normalAAAEl, largeAAEl, largeAAAEl, primary, secondary) {
-    const primaryRatio = bestTextColor(primary).ratio;
-    const secondaryRatio = bestTextColor(secondary).ratio;
-
-    const primaryWcagResult = wcagPasses(primaryRatio);
-    const secondaryWcagResult = wcagPasses(secondaryRatio);
-    
-    normalAAEl.textContent = (primaryWcagResult.normalAA && secondaryWcagResult.normalAA) ? "PASS" : "FAIL";
-    normalAAAEl.textContent = (primaryWcagResult.normalAAA && secondaryWcagResult.normalAAA) ? "PASS" : "FAIL";
-    largeAAEl.textContent = (primaryWcagResult.largeAA && secondaryWcagResult.largeAA) ? "PASS" : "FAIL";
-    largeAAAEl.textContent = (primaryWcagResult.largeAAA && secondaryWcagResult.largeAAA) ? "PASS" : "FAIL";
-
-    normalAAEl.style.color = (primaryWcagResult.normalAA && secondaryWcagResult.normalAA) ? "#449b72" : "#c3110c";
-    normalAAAEl.style.color = (primaryWcagResult.normalAAA && secondaryWcagResult.normalAAA) ? "#449b72" : "#c3110c";
-    largeAAEl.style.color = (primaryWcagResult.largeAA && secondaryWcagResult.largeAA) ? "#449b72" : "#c3110c";
-    largeAAAEl.style.color = (primaryWcagResult.largeAAA && secondaryWcagResult.largeAAA) ? "#449b72" : "#c3110c";
+    return secondary;
 }
 
+// =============================
+// Render functions
+// =============================
+function renderColorPalette(primaryHexCardEl, secondaryHexCardEl, primaryTextEl, secondaryTextEl, primaryColor, secondaryColor) {
+    primaryHexCardEl.style.backgroundColor = primaryColor;
+    primaryTextEl.textContent = "Hex: " + primaryColor;
+    primaryPickerEl.value = primaryColor;
+
+    secondaryHexCardEl.style.backgroundColor = secondaryColor;
+    secondaryTextEl.textContent = "Hex: " + secondaryColor;
+    secondaryPickerEl.value = secondaryColor;
+}
+
+function renderVisualization(viz1, viz2, currentPrimary, currentSecondary) {
+    const primaryTextColor = bestTextColor(currentPrimary).text;
+    const secondaryTextColor = bestTextColor(currentSecondary).text;
+
+    document.querySelector("#viz1 h2").style.color = currentSecondary;
+    document.querySelector("#viz2 h2").style.color = currentPrimary;
+    document.querySelector("#viz3 h2").style.color = currentPrimary;
+    document.querySelector("#viz4 h2").style.color = currentSecondary;
+
+    viz1.style.color = primaryTextColor;
+    viz2.style.color = secondaryTextColor;
+
+    viz1.style.backgroundColor = currentPrimary;
+    viz2.style.backgroundColor = currentSecondary;
+}
+
+function renderWcagResult(normalAAEl, normalAAAEl, largeAAEl, largeAAAEl, primary, secondary) {
+    const PASS_COLOR = "#449b72";
+    const FAIL_COLOR = "#c3110c";
+
+    const result = [
+        wcagPasses(bestTextColor(primary).ratio),
+        wcagPasses(bestTextColor(secondary).ratio)
+    ];
+
+    const checks = [
+        { el: normalAAEl, key: "normalAA" },
+        { el: normalAAAEl, key: "normalAAA" },
+        { el: largeAAEl, key: "largeAA" },
+        { el: largeAAAEl, key: "largeAAA" }
+    ];
+
+    checks.forEach(({ el, key }) => {
+        const pass = result.every(r => r[key]);
+        el.textContent = pass ? "PASS" : "FAIL";
+        el.style.color = pass ? PASS_COLOR : FAIL_COLOR;
+        el.style.fontWeight = "700";
+    });
+}
 
 // ===================================
 // DOM Elements
 // ===================================
 
-const primaryHex = document.getElementById("primaryHex");
-const primaryColor = document.getElementById("primaryColor");
+const primaryHexCardEl = document.getElementById("primaryColor");
+const primaryTextEl = document.getElementById("primaryHex");
 
-const secondaryHex = document.getElementById("secondaryHex");
-const secondaryColor = document.getElementById("secondaryColor");
+const primaryPickerEl = document.getElementById("primaryPicker");
+const secondaryPickerEl = document.getElementById("secondaryPicker");
+
+const secondaryHexCardEl = document.getElementById("secondaryColor");
+const secondaryTextEl = document.getElementById("secondaryHex");
 
 const lockPrimaryEl = document.getElementById("lockPrimary");
 const generateBtn = document.getElementById("generateBtn");
 
 const viz1 = document.getElementById("viz1");
 const viz2 = document.getElementById("viz2");
-const viz3 = document.getElementById("viz3");
-const viz4 = document.getElementById("viz4");
-
-const h1 = document.getElementById("h1");
-const h2 = document.getElementById("h2");
-const h3 = document.getElementById("h3");
-const h4 = document.getElementById("h4");
 
 const normalAAEl = document.getElementById("normalAA");
 const normalAAAEl = document.getElementById("normalAAA");
 const largeAAEl = document.getElementById("largeAA");
 const largeAAAEl = document.getElementById("largeAAA");
 
+// =============================
+// Render color palette
+// =============================
 let currentPrimary = generatePrimaryUntilReadable();
 let currentSecondary = generateSecondaryUntilReadable(currentPrimary);
 
@@ -229,30 +268,28 @@ function generatePalette() {
 
     currentSecondary = generateSecondaryUntilReadable(currentPrimary);
 
-    const primaryTextColor = bestTextColor(currentPrimary).text;
-    const secondaryTextColor = bestTextColor(currentSecondary).text;
-
-    primaryHex.textContent = "Hex: " + currentPrimary;
-    primaryColor.style.backgroundColor = currentPrimary;
-
-    secondaryHex.textContent = "Hex: " + currentSecondary;
-    secondaryColor.style.backgroundColor = currentSecondary;
-
-    viz1.style.backgroundColor = currentPrimary;
-    viz1.style.color = primaryTextColor;
-    h1.style.color = currentSecondary;
-
-    viz2.style.backgroundColor = currentSecondary;
-    viz2.style.color = secondaryTextColor;
-    h2.style.color = currentPrimary;
-
-    h3.style.color = currentSecondary;
-    h4.style.color = currentPrimary;
-
+    renderColorPalette(primaryHexCardEl, secondaryHexCardEl, primaryTextEl, secondaryTextEl, currentPrimary, currentSecondary);
+    renderVisualization(viz1, viz2, currentPrimary, currentSecondary);
     renderWcagResult(normalAAEl, normalAAAEl, largeAAEl, largeAAAEl, currentPrimary, currentSecondary);
 }
 
 
 generateBtn.addEventListener("click", generatePalette);
+
+primaryPickerEl.addEventListener("input", (e) => {
+    currentPrimary = e.target.value.toUpperCase();
+
+    renderColorPalette(primaryHexCardEl, secondaryHexCardEl, primaryTextEl, secondaryTextEl, currentPrimary, currentSecondary);
+    renderVisualization(viz1, viz2, currentPrimary, currentSecondary);
+    renderWcagResult(normalAAEl, normalAAAEl, largeAAEl, largeAAAEl, currentPrimary, currentSecondary);
+});
+
+secondaryPickerEl.addEventListener("input", (e) => {
+    currentSecondary = e.target.value.toUpperCase();
+
+    renderColorPalette(primaryHexCardEl, secondaryHexCardEl, primaryTextEl, secondaryTextEl, currentPrimary, currentSecondary);
+    renderVisualization(viz1, viz2, currentPrimary, currentSecondary);
+    renderWcagResult(normalAAEl, normalAAAEl, largeAAEl, largeAAAEl, currentPrimary, currentSecondary);
+});
 
 generatePalette();

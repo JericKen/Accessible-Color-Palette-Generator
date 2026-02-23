@@ -19,13 +19,31 @@
                     <div class="palette">
                         <div class="color-box">
                             <span class="card-title label">PRIMARY</span>
-                            <div class="color-card" id="primaryColor"></div>  
-                            <span class="hex" id="primaryHex">Hex: #000000</span>
+                            <div class="color-card" id="primaryColor"></div>
+                            <div class="color-picker-container">
+                                <div class="color-picker-wrapper">
+                                    <input type="color" id="primaryPicker" class="color-picker">
+                                    <div class="color-icon">
+                                        <img src="images/colors-icon-4.png" alt="color">
+                                    </div>
+                                </div>
+                                <p class="hex" id="primaryHex">Hex: #000000</p>
+                            </div>
+                            <span id="primaryRatio"></span>
                         </div>
                         <div class="color-box">
                             <span class="card-title label">SECONDARY</span>
                             <div class="color-card" id="secondaryColor"></div>
-                            <span class="hex" id="secondaryHex">Hex: #000000</span>
+                            <div class="color-picker-container">
+                                <div class="color-picker-wrapper">
+                                    <input type="color" id="secondaryPicker" class="color-picker">
+                                    <div class="color-icon">
+                                        <img src="images/colors-icon-4.png" alt="color">
+                                    </div>
+                                </div>
+                                <p class="hex" id="secondaryHex">Hex: #000000</p>
+                            </div>  
+                            <span id="secondaryRatio"></span>
                         </div>
                     </div>  
                     <div class="controls">
@@ -33,7 +51,8 @@
                             <input type="checkbox" id="lockPrimary"/>
                             Lock primary
                         </label>
-                        <button id="generateBtn"><span class="material-symbols-outlined">autorenew</span>Generate another</button>
+                        <!-- <button id="generateBtn"><span class="material-symbols-outlined">autorenew</span>Generate another</button> -->
+                        <button id="generateBtn"><img src="images/autorenew_24dp_E3E3E3_FILL0_wght200_GRAD0_opsz40.svg" alt="">Generate another</button>
                     </div>
                 </div>
             </div>
@@ -64,12 +83,12 @@
                         <div class="wcag-result">
                             <h4>Normal Text:</h4>
                             <div class="result-container">
-                                <div class="wcag-label">
+                                <div>
                                     <p>WCAG AA:</p>
-                                    <p>WCAG AAA:</p>
+                                    <p id="normalAA"></p>
                                 </div>
                                 <div>
-                                    <p id="normalAA"></p>
+                                    <p>WCAG AAA:</p>
                                     <p id="normalAAA"></p>
                                 </div>
                             </div>
@@ -77,12 +96,12 @@
                         <div class="wcag-result">
                             <h4>Large Text:</h4>
                             <div class="result-container">
-                                <div class="wcag-label">
+                                <div>
                                     <p>WCAG AA:</p>
-                                    <p>WCAG AAA:</p>
+                                    <p id="largeAA"></p>
                                 </div>
                                 <div>
-                                    <p id="largeAA"></p>
+                                    <p>WCAG AAA:</p>
                                     <p id="largeAAA"></p>
                                 </div>
                             </div>
