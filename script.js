@@ -156,24 +156,19 @@ function generatePrimaryUntilReadable() {
     }
 }
 
-function generateSecondaryUntilReadable(primaryHex, minContrast = 4.5, maxAttempts = 20) {
-    let secondary = "";
+function generateSecondaryUntilReadable(primaryHex, minContrast = 7, maxAttempts = 100) {
     for (let i = 0; i < maxAttempts; i++) {
-        secondary = generateSupportingColor(primaryHex);
+        const secondary = generateSupportingColor(primaryHex);
 
-        const textOK = wcagPasses(bestTextColor(secondary).ratio);
         const colorContrast = contrastRatio(primaryHex, secondary);
 
-        if (
-            textOK.normalAA &&
-            textOK.normalAAA &&
-            colorContrast >= minContrast
-        ) {
+        if (colorContrast >= minContrast) {
             return secondary;
         }
     }
 
-    return secondary;
+    const primaryTextColor = bestTextColor(primaryHex).text;
+    return primaryTextColor === "#000000" ? "#202748" : "#E9EFDA";
 }
 
 // =============================
@@ -209,12 +204,11 @@ function renderWcagResult(normalAAEl, normalAAAEl, largeAAEl, largeAAAEl, primar
     const PASS_COLOR = "#449b72";
     const FAIL_COLOR = "#c3110c";
 
-    const result = [
-        wcagPasses(bestTextColor(primary).ratio),
-        wcagPasses(bestTextColor(secondary).ratio)
-    ];
+    const result = wcagPasses(contrastRatio(primary, secondary));
 
-    const checks = [
+    console.log("Contrast ratio: ", contrastRatio(primary, secondary).toFixed(2) + ":1");
+
+    const checks = [ 
         { el: normalAAEl, key: "normalAA" },
         { el: normalAAAEl, key: "normalAAA" },
         { el: largeAAEl, key: "largeAA" },
@@ -222,7 +216,8 @@ function renderWcagResult(normalAAEl, normalAAAEl, largeAAEl, largeAAAEl, primar
     ];
 
     checks.forEach(({ el, key }) => {
-        const pass = result.every(r => r[key]);
+        const pass = result[key];
+
         el.textContent = pass ? "PASS" : "FAIL";
         el.style.color = pass ? PASS_COLOR : FAIL_COLOR;
         el.style.fontWeight = "700";

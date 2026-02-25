@@ -6,7 +6,6 @@
 
   --clr-dark: #2f2820;
   --clr-muted: #a39e9a;
-  --clr-border: rgb(95, 66, 66);
 
   --clr-bg-light: #f1eee9;
   --clr-bg-gray: #e1e1e1;
@@ -116,7 +115,7 @@ main {
   width: 200px;
   height: 380px;
   margin-top: 6px;
-  border: 1px solid var(--clr-border);
+  border: 1px solid var(--clr-dark);
   border-radius: var(--radius-lg);
 }
 
@@ -183,7 +182,7 @@ input[type="color"]:focus-visible {
 
 .viz-card {
   padding: 16px 24px;
-  border: 1px solid var(--clr-border);
+  border: 1px solid var(--clr-dark);
   border-radius: var(--radius-lg);
 }
 
@@ -224,7 +223,7 @@ input[type="color"]:focus-visible {
   flex-direction: column;
   align-items: flex-start;
   gap: 14px;
-  margin-top: 80px;
+  margin-top: 70px;
 }
 
 .checkbox {
@@ -280,6 +279,7 @@ button {
   color: #fff;
   cursor: pointer;
   user-select: none;
+  font-family: var(--font-main);
 }
 
 button:active {
@@ -373,7 +373,7 @@ button img {
   button {
     width: 100%;
     justify-content: center;
-    padding: 14px 16px;
+    padding: 10px 12px;
     font-size: 1rem;
     min-height: 48px;
   }
